@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Family_item {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  position   Int
+  name       String
+  child_item Child_item[]
+}
+
+model Child_item {
+  id     Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName    String?
+  lastName    String?
+  familly_item    Family_item     @relation(fields: [familly_itemId], references: [id])
+  familly_itemId  Int
+}
